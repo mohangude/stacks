@@ -1,0 +1,51 @@
+public class FixedSizeArrayStack<T> {
+    private int size;
+    private T[] arr;
+    private int maxS;
+    
+    public FixedSizeArrayStack(int maxSize) {
+        arr = (T[]) new Object[maxSize];
+        size = -1;
+        maxS = maxSize;
+    }
+    
+    public void push(T newItem) {
+        if(newItem == null){
+            throw new IllegalArgumentException();
+        }
+        if(size == maxS-1){
+            throw new IllegalStateException();
+        }
+        arr[size+1] = newItem;
+        size++;
+        return;
+    }
+    
+    public T pop() {
+        if(isEmpty()){
+            throw new IllegalStateException();
+        }
+        T out = arr[size];
+        arr[size] = null;
+        size--;
+        return out;
+    }
+    
+    public T peek() {
+        if(!isEmpty()){
+            T out = arr[size];
+            return out;
+        }
+        else{
+            throw new IllegalStateException();
+        }
+    }
+    
+    public boolean isEmpty() {
+        return size == -1;
+    }
+    
+    public int size() {
+        return size+1;
+    }
+}
