@@ -1,0 +1,71 @@
+public class ResizingArrayStack<T> {
+    private int size;
+    private T[] arr;
+    private int maxSize;
+    
+    public ResizingArrayStack() {
+        arr = (T[]) new Object[1];
+        size = -1;
+        maxSize = 1;
+    }
+    
+    public void push(T newItem) {
+        if(newItem == null){
+            throw new IllegalArgumentException();
+        }
+        if(size == arr.length - 1){
+            T[] arrTemp = (T[]) new Object[arr.length*2];
+            for(int i=0; i<arr.length; i++){
+                arrTemp[i] = arr[i];
+            }
+            arr = (T[]) new Object[arr.length*2];
+            for(int i=0; i<arrTemp.length; i++){
+                arr[i] = arrTemp[i];
+            }
+            maxSize = size;
+        }
+        arr[size+1] = newItem;
+        size++;
+    }
+    
+    public T pop() {
+        if(isEmpty()){
+            throw new IllegalStateException();
+        }
+        if(size > 1){
+            if(size == maxSize/2){
+                T[] arrTemp = (T[]) new Object[arr.length/2];
+                for(int i=0; i<arrTemp.length; i++){
+                    arrTemp[i] = arr[i];
+                }
+                arr = (T[]) new Object[arr.length/2];
+                for(int i=0; i<arrTemp.length; i++){
+                    arr[i] = arrTemp[i];
+                }
+                maxSize = size;
+            }
+        }
+        T out = arr[size];
+        arr[size] = null;
+        size--;
+        return out;
+    }
+    
+    public T peek() {
+        if(!isEmpty()){
+            T out = arr[size];
+            return out;
+        }
+        else{
+            throw new IllegalStateException();
+        }
+    }
+    
+    public boolean isEmpty() {
+        return size == -1;
+    }
+    
+    public int size() {
+        return size+1;
+    }
+}
